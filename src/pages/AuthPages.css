@@ -1,53 +1,135 @@
+/* 1. Base Page & Animated Gradient Background */
 .auth-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
-  background: radial-gradient(ellipse at 60% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #31135e 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  color: #fff;
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 2. Glassy Auth Card & Entrance Animation */
 .auth-card {
   width: 100%;
   max-width: 440px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: var(--shadow), var(--shadow-accent);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 48px 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  
+  /* Smooth scale and fade in */
+  opacity: 0;
+  animation: scaleUpFade 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
-.auth-header { text-align: center; margin-bottom: 28px; }
+@keyframes scaleUpFade {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 3. Header & Typography */
+.auth-header { 
+  text-align: center; 
+  margin-bottom: 32px; 
+}
 
 .auth-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  display: block;
+  font-size: 56px;
+  margin-bottom: 20px;
+  display: inline-block; /* Changed to inline-block for proper animation transform */
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+  /* Playful floating icon */
+  animation: floatIcon 4s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
 }
 
 .auth-title {
-  font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 6px;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
 }
 
-.auth-subtitle { color: var(--text-secondary); font-size: 14px; }
+.auth-subtitle { 
+  color: rgba(255, 255, 255, 0.6); 
+  font-size: 15px; 
+  line-height: 1.5;
+}
 
+/* 4. Security Indicators (Assuming they are badges/pills) */
 .security-indicators {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
+/* Styling the children of security indicators for a cohesive glassy look */
+.security-indicators > * {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+/* 5. Footer & Animated Links */
 .auth-footer {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 32px;
   font-size: 14px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.6);
 }
 
-.auth-footer a { color: var(--accent-light); font-weight: 500; }
+.auth-footer a { 
+  color: #fff; 
+  font-weight: 600; 
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 2px;
+  transition: text-shadow 0.3s ease;
+}
+
+/* Animated underline effect on hover */
+.auth-footer a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  transform-origin: bottom right;
+  transition: transform 0.3s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.auth-footer a:hover {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.auth-footer a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
