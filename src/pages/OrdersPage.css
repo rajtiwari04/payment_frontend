@@ -1,69 +1,274 @@
-.orders-page { padding: 40px 0 80px; }
-
-.orders-list { display: flex; flex-direction: column; gap: 16px; }
-
-.order-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: border-color 0.2s;
+/* 1. Base Page & Animated Gradient Background */
+.orders-page { 
+  padding: 40px 20px 80px; 
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #31135e 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  color: #fff;
 }
-.order-card:hover { border-color: var(--border-accent); }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.orders-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 20px; 
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* 2. Glassy Order Card & Animations */
+.order-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  
+  /* Entrance Animation */
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Staggered load effect for the order list */
+.order-card:nth-child(1) { animation-delay: 0.1s; }
+.order-card:nth-child(2) { animation-delay: 0.2s; }
+.order-card:nth-child(3) { animation-delay: 0.3s; }
+.order-card:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.order-card:hover { 
+  border-color: rgba(255, 255, 255, 0.3); 
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* 3. Order Header (Summary view) */
 .order-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 20px;
+  padding: 20px 24px;
   cursor: pointer;
-  gap: 12px;
+  gap: 16px;
+  transition: background 0.3s ease;
 }
 
-.order-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.order-id { font-family: monospace; font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.order-header:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
 
-.order-summary-right { display: flex; align-items: center; gap: 16px; }
-.order-total { font-family: var(--font-display); font-size: 18px; font-weight: 800; }
-.order-date { font-size: 12px; color: var(--text-muted); }
-.expand-arrow { font-size: 12px; color: var(--text-muted); }
+.order-meta { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  flex-wrap: wrap; 
+}
 
+.order-id { 
+  font-family: 'Courier New', Courier, monospace; 
+  font-size: 15px; 
+  font-weight: 700; 
+  color: #fff; 
+  letter-spacing: 0.05em;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.order-summary-right { 
+  display: flex; 
+  align-items: center; 
+  gap: 20px; 
+}
+
+.order-total { 
+  font-size: 20px; 
+  font-weight: 800; 
+  color: #fff;
+}
+
+.order-date { 
+  font-size: 13px; 
+  color: rgba(255, 255, 255, 0.6); 
+}
+
+.expand-arrow { 
+  font-size: 14px; 
+  color: rgba(255, 255, 255, 0.4); 
+  transition: transform 0.3s ease;
+}
+
+/* If you toggle a class like .expanded via JS, use this rule: */
+.order-card.expanded .expand-arrow {
+  transform: rotate(180deg);
+}
+
+/* 4. Order Details (Expanded state) */
 .order-details {
-  border-top: 1px solid var(--border);
-  padding: 20px;
-  background: var(--bg-elevated);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.2); /* Darker inset to create depth */
 }
 
-.order-items-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.order-items-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+  margin-bottom: 20px; 
+}
 
+/* Individual Item Pill */
 .order-item-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
-  background: var(--bg-card);
-  border-radius: 10px;
+  gap: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  transition: background 0.3s ease;
 }
-.order-item-thumb { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+
+.order-item-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.order-item-thumb { 
+  width: 56px; 
+  height: 56px; 
+  border-radius: 10px; 
+  object-fit: cover; 
+  flex-shrink: 0; 
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .order-item-details { flex: 1; }
-.order-item-name { font-size: 14px; font-weight: 500; display: block; margin-bottom: 2px; }
-.order-item-meta { font-size: 12px; color: var(--text-muted); }
-.order-item-subtotal { font-weight: 600; font-size: 14px; }
 
-.order-breakdown { background: var(--bg-card); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
-.breakdown-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; color: var(--text-secondary); }
-.breakdown-row.total { font-weight: 700; font-size: 15px; color: var(--text-primary); border-top: 1px solid var(--border); margin-top: 6px; padding-top: 10px; }
+.order-item-name { 
+  font-size: 15px; 
+  font-weight: 600; 
+  color: #fff;
+  display: block; 
+  margin-bottom: 4px; 
+}
 
+.order-item-meta { 
+  font-size: 13px; 
+  color: rgba(255, 255, 255, 0.5); 
+}
+
+.order-item-subtotal { 
+  font-weight: 700; 
+  font-size: 15px; 
+  color: #fff;
+}
+
+/* 5. Breakdown & Pricing Details */
+.order-breakdown { 
+  background: rgba(255, 255, 255, 0.03); 
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px; 
+  padding: 16px 20px; 
+  margin-bottom: 16px; 
+}
+
+.breakdown-row { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 14px; 
+  padding: 6px 0; 
+  color: rgba(255, 255, 255, 0.7); 
+}
+
+.breakdown-row.total { 
+  font-weight: 800; 
+  font-size: 18px; 
+  color: #fff; 
+  border-top: 1px solid rgba(255, 255, 255, 0.1); 
+  margin-top: 12px; 
+  padding-top: 16px; 
+}
+
+/* 6. Transaction / Blockchain Info */
 .transaction-info {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 12px;
+  gap: 12px;
+  font-size: 13px;
+  background: rgba(139, 92, 246, 0.1); /* Subtle purple tint */
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
 }
-.t-label { color: var(--text-muted); }
-.t-token { font-family: monospace; color: var(--accent-light); }
 
-.empty-state { text-align: center; padding: 80px 0; }
-.empty-icon { font-size: 64px; margin-bottom: 16px; }
-.empty-state h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-.empty-state p { color: var(--text-secondary); }
+.t-label { 
+  color: rgba(255, 255, 255, 0.6); 
+}
+
+.t-token { 
+  font-family: 'Courier New', Courier, monospace; 
+  color: #c4b5fd; 
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* 7. Empty State */
+.empty-state { 
+  text-align: center; 
+  padding: 100px 20px; 
+  animation: floating 6s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+.empty-icon { 
+  font-size: 72px; 
+  margin-bottom: 24px; 
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+}
+
+.empty-state h3 { 
+  font-size: 26px; 
+  font-weight: 800; 
+  margin-bottom: 12px; 
+  color: #fff;
+}
+
+.empty-state p { 
+  color: rgba(255, 255, 255, 0.6); 
+  font-size: 16px;
+}
+
+/* 8. Responsive Rules */
+@media (max-width: 600px) {
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .order-summary-right {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+}
