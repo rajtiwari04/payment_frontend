@@ -1,39 +1,84 @@
+/* 1. Base Page & Animated Gradient Background */
 .otp-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
-  background: radial-gradient(ellipse at 50% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #31135e 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  color: #fff;
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 2. Glassy OTP Card & Entrance Animation */
 .otp-card {
   width: 100%;
   max-width: 440px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: var(--shadow), var(--shadow-accent);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 48px 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  
+  opacity: 0;
+  animation: scaleUpFade 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
-.otp-header { text-align: center; margin-bottom: 28px; }
-.otp-shield { font-size: 52px; margin-bottom: 16px; animation: pulse 2s ease-in-out infinite; }
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+@keyframes scaleUpFade {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-.otp-title { font-family: var(--font-display); font-size: 26px; font-weight: 800; margin-bottom: 8px; }
-.otp-subtitle { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+/* 3. Header & Pulsing Shield */
+.otp-header { 
+  text-align: center; 
+  margin-bottom: 32px; 
+}
 
+.otp-shield { 
+  font-size: 56px; 
+  margin-bottom: 20px; 
+  display: inline-block;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+  animation: securePulse 2.5s ease-in-out infinite; 
+}
+
+@keyframes securePulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2)); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 25px rgba(139, 92, 246, 0.5)); }
+}
+
+.otp-title { 
+  font-size: 28px; 
+  font-weight: 800; 
+  margin-bottom: 12px; 
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.otp-subtitle { 
+  color: rgba(255, 255, 255, 0.6); 
+  font-size: 15px; 
+  line-height: 1.6; 
+}
+
+/* 4. Glassy Transaction Info Box */
 .otp-transaction-info {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
 }
 
 .otp-info-row {
@@ -41,84 +86,125 @@
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
-  padding: 6px 0;
+  padding: 8px 0;
 }
 
-.otp-info-row span:first-child { color: var(--text-secondary); }
-.otp-info-row span:last-child { font-weight: 600; }
+.otp-info-row span:first-child { color: rgba(255, 255, 255, 0.5); }
+.otp-info-row span:last-child { font-weight: 700; color: #fff; }
 
+/* 5. Translucent Risk Badges */
 .risk-badge {
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
 }
-.risk-badge.low { background: var(--success-bg); color: var(--success); }
-.risk-badge.medium { background: var(--warning-bg); color: var(--warning); }
-.risk-badge.high { background: var(--danger-bg); color: var(--danger); }
 
+.risk-badge.low { 
+  background: rgba(52, 211, 153, 0.15); 
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  color: #34d399; 
+}
+
+.risk-badge.medium { 
+  background: rgba(251, 191, 36, 0.15); 
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: #fbbf24; 
+}
+
+.risk-badge.high { 
+  background: rgba(248, 113, 113, 0.15); 
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: #f87171; 
+}
+
+/* Developer Notice */
 .dev-otp-notice {
-  background: var(--warning-bg);
+  background: rgba(245, 158, 11, 0.1);
   border: 1px solid rgba(245, 158, 11, 0.3);
-  border-radius: 10px;
-  padding: 12px 16px;
+  border-radius: 12px;
+  padding: 14px 16px;
   font-size: 13px;
-  color: var(--warning);
-  margin-bottom: 20px;
+  color: #fcd34d;
+  margin-bottom: 24px;
   text-align: center;
+  backdrop-filter: blur(4px);
 }
 
+/* 6. Glowing OTP Input Group */
 .otp-input-group {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
-  margin: 24px 0;
+  margin: 32px 0;
 }
 
 .otp-input {
-  width: 52px;
-  height: 62px;
-  background: var(--bg-elevated);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  color: var(--text-primary);
-  font-size: 24px;
-  font-weight: 700;
+  width: 54px;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 800;
   text-align: center;
   outline: none;
-  transition: all 0.2s;
-  font-family: var(--font-display);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-family: 'Courier New', Courier, monospace;
 }
 
+/* Active & Filled States */
 .otp-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-  background: var(--bg-card);
+  border-color: #a78bfa;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  background: rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
 
 .otp-input.filled {
-  border-color: var(--accent);
-  background: rgba(99, 102, 241, 0.05);
+  border-color: rgba(52, 211, 153, 0.6); /* Success green edge when filled */
+  background: rgba(52, 211, 153, 0.05);
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.2);
 }
 
+/* 7. Timer & Security Footnote */
 .otp-timer {
   text-align: center;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 20px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 24px;
 }
-.otp-timer strong { color: var(--text-primary); }
-.otp-timer .expired { color: var(--danger); }
+
+.otp-timer strong { color: #fff; font-variant-numeric: tabular-nums; }
+.otp-timer .expired { color: #f87171; animation: pulse 2s infinite; }
 
 .otp-security-note {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin-top: 20px;
-  padding: 14px;
-  background: var(--bg-elevated);
-  border-radius: 10px;
-  font-size: 12px;
-  color: var(--text-muted);
+  gap: 12px;
+  margin-top: 24px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
   line-height: 1.5;
+}
+
+/* 8. Mobile Adjustments */
+@media (max-width: 480px) {
+  .otp-card { padding: 40px 24px; }
+  
+  .otp-input-group { gap: 8px; }
+  
+  .otp-input {
+    width: 45px;
+    height: 55px;
+    font-size: 22px;
+  }
 }
