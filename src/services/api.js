@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = process.env.REACT_APP_API_URL || '/api';
+const API_BASE = process.env.REACT_APP_API_URL;
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -10,8 +10,14 @@ const api = axios.create({
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
-  const deviceId = localStorage.getItem('deviceId') || generateDeviceId();
+
+  const deviceId =
+    localStorage.getItem('deviceId') ||
+    'DEV_' + Math.random().toString(36).substr(2, 16).toUpperCase();
+
+  localStorage.setItem('deviceId', deviceId);
   config.headers['x-device-id'] = deviceId;
+
   return config;
 });
 
@@ -27,48 +33,43 @@ api.interceptors.response.use(
   }
 );
 
-const generateDeviceId = () => {
-  const id = 'DEV_' + Math.random().toString(36).substr(2, 16).toUpperCase();
-  localStorage.setItem('deviceId', id);
-  return id;
-};
-
 export const authAPI = {
-  register: data => api.post('/auth/register', data),
-  login: data => api.post('/auth/login', data),
-  getProfile: () => api.get('/auth/profile'),
-  updateProfile: data => api.put('/auth/profile', data)
+  register: data => api.post('/api/auth/register', data),
+  login: data => api.post('/api/auth/login', data),
+  getProfile: () => api.get('/api/auth/profile'),
+  updateProfile: data => api.put('/api/auth/profile', data)
 };
 
 export const productAPI = {
-  getAll: params => api.get('/products', { params }),
-  getOne: id => api.get(`/products/${id}`),
-  create: data => api.post('/products', data),
-  update: (id, data) => api.put(`/products/${id}`, data),
-  delete: id => api.delete(`/products/${id}`),
-  seed: () => api.post('/products/admin/seed')
+  getAll: params => api.get('/api/products', { params }),
+  getOne: id => api.get(`/api/products/${id}`),
+  create: data => api.post('/api/products', data),
+  update: (id, data) => api.put(`/api/products/${id}`, data),
+  delete: id => api.delete(`/api/products/${id}`),
+  seed: () => api.post('/api/products/admin/seed')
 };
 
 export const cartAPI = {
-  validate: items => api.post('/cart/validate', { items })
+  validate: items => api.post('/api/cart/validate', { items })
 };
 
 export const orderAPI = {
-  create: data => api.post('/orders', data),
-  getAll: () => api.get('/orders'),
-  getOne: id => api.get(`/orders/${id}`)
+  create: data => api.post('/api/orders', data),
+  getAll: () => api.get('/api/orders'),
+  getOne: id => api.get(`/api/orders/${id}`)
 };
 
 export const paymentAPI = {
-  initiate: data => api.post('/payment/initiate', data),
-  verifyOTP: data => api.post('/payment/verify-otp', data),
-  getTransaction: id => api.get(`/payment/transaction/${id}`)
+  initiate: data => api.post('/api/payment/initiate', data),
+  verifyOTP: data => api.post('/api/payment/verify-otp', data),
+  getTransaction: id => api.get(`/api/payment/transaction/${id}`)
 };
 
 export const adminAPI = {
-  getDashboard: () => api.get('/admin/dashboard'),
-  getFraudLogs: params => api.get('/admin/fraud-logs', { params }),
-  reviewFraudLog: (id, notes) => api.put(`/admin/fraud-logs/${id}/review`, { notes })
+  getDashboard: () => api.get('/api/admin/dashboard'),
+  getFraudLogs: params => api.get('/api/admin/fraud-logs', { params }),
+  reviewFraudLog: (id, notes) =>
+    api.put(`/api/admin/fraud-logs/${id}/review`, { notes })
 };
 
 export default api;
