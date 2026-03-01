@@ -1,0 +1,124 @@
+.otp-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+}
+
+.otp-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow), var(--shadow-accent);
+}
+
+.otp-header { text-align: center; margin-bottom: 28px; }
+.otp-shield { font-size: 52px; margin-bottom: 16px; animation: pulse 2s ease-in-out infinite; }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.otp-title { font-family: var(--font-display); font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+.otp-subtitle { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+
+.otp-transaction-info {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.otp-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 0;
+}
+
+.otp-info-row span:first-child { color: var(--text-secondary); }
+.otp-info-row span:last-child { font-weight: 600; }
+
+.risk-badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.risk-badge.low { background: var(--success-bg); color: var(--success); }
+.risk-badge.medium { background: var(--warning-bg); color: var(--warning); }
+.risk-badge.high { background: var(--danger-bg); color: var(--danger); }
+
+.dev-otp-notice {
+  background: var(--warning-bg);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--warning);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.otp-input-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.otp-input {
+  width: 52px;
+  height: 62px;
+  background: var(--bg-elevated);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  transition: all 0.2s;
+  font-family: var(--font-display);
+}
+
+.otp-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  background: var(--bg-card);
+}
+
+.otp-input.filled {
+  border-color: var(--accent);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.otp-timer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+.otp-timer strong { color: var(--text-primary); }
+.otp-timer .expired { color: var(--danger); }
+
+.otp-security-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 14px;
+  background: var(--bg-elevated);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
