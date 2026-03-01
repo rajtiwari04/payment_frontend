@@ -1,22 +1,46 @@
+/* 1. Base Page & Animated Gradient Background */
 .result-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #31135e 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  color: #fff;
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 2. Glassy Result Card & Entrance Animation */
 .result-card {
   width: 100%;
   max-width: 520px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
   padding: 48px 40px;
   text-align: center;
-  box-shadow: var(--shadow);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  
+  /* Smooth Pop-in Animation */
+  opacity: 0;
+  animation: scaleUpFade 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
+@keyframes scaleUpFade {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 3. Glowing Result Icon & Ripples */
 .result-icon-wrap {
   position: relative;
   display: inline-flex;
@@ -24,7 +48,7 @@
   justify-content: center;
   width: 90px;
   height: 90px;
-  margin: 0 auto 28px;
+  margin: 0 auto 32px;
 }
 
 .result-icon {
@@ -38,18 +62,27 @@
   font-weight: 700;
   position: relative;
   z-index: 2;
+  /* Extra pop for the icon entering */
+  animation: iconPop 0.6s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes iconPop {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .result-icon-wrap.success .result-icon {
-  background: var(--success);
+  background: rgba(16, 185, 129, 0.9);
   color: #fff;
-  box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+  border: 2px solid #34d399;
 }
 
 .result-icon-wrap.failure .result-icon {
-  background: var(--danger);
+  background: rgba(239, 68, 68, 0.9);
   color: #fff;
-  box-shadow: 0 0 40px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.6);
+  border: 2px solid #f87171;
 }
 
 .result-rings {
@@ -63,92 +96,150 @@
 .ring {
   position: absolute;
   border-radius: 50%;
-  border: 2px solid;
-  animation: ringExpand 1.5s ease-out infinite;
+  border: 2px solid transparent; /* Defined dynamically below */
+  animation: ringExpand 2s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
 }
-.ring:nth-child(1) { width: 80px; height: 80px; animation-delay: 0s; }
-.ring:nth-child(2) { width: 100px; height: 100px; animation-delay: 0.3s; }
-.ring:nth-child(3) { width: 120px; height: 120px; animation-delay: 0.6s; }
 
-.result-icon-wrap.success .ring { border-color: var(--success); }
-.result-icon-wrap.failure .ring { border-color: var(--danger); }
+.ring:nth-child(1) { width: 80px; height: 80px; animation-delay: 0s; }
+.ring:nth-child(2) { width: 100px; height: 100px; animation-delay: 0.4s; }
+.ring:nth-child(3) { width: 120px; height: 120px; animation-delay: 0.8s; }
+
+.result-icon-wrap.success .ring { border-color: rgba(52, 211, 153, 0.6); }
+.result-icon-wrap.failure .ring { border-color: rgba(248, 113, 113, 0.6); }
 
 @keyframes ringExpand {
-  0% { opacity: 0.6; transform: scale(0.8); }
-  100% { opacity: 0; transform: scale(1.4); }
+  0% { opacity: 0.8; transform: scale(0.8); border-width: 4px; }
+  100% { opacity: 0; transform: scale(1.6); border-width: 1px; }
 }
 
+/* 4. Typography */
 .result-title {
-  font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
 }
-.result-title.success { color: var(--success); }
-.result-title.failure { color: var(--danger); }
-.result-message { color: var(--text-secondary); font-size: 15px; margin-bottom: 28px; }
 
+.result-title.success { color: #34d399; text-shadow: 0 0 15px rgba(52, 211, 153, 0.3); }
+.result-title.failure { color: #f87171; text-shadow: 0 0 15px rgba(248, 113, 113, 0.3); }
+
+.result-message { 
+  color: rgba(255, 255, 255, 0.7); 
+  font-size: 16px; 
+  margin-bottom: 32px; 
+  line-height: 1.5;
+}
+
+/* 5. Recessed Glass Transaction Details */
 .transaction-details {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
   margin-bottom: 24px;
   text-align: left;
+  backdrop-filter: blur(8px);
 }
 
 .transaction-details h3 {
-  font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 16px;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
 }
 
-.detail-grid { display: flex; flex-direction: column; gap: 10px; }
+.detail-grid { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 14px; 
+}
 
 .detail-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
 }
 
-.detail-label { color: var(--text-secondary); }
-.detail-value { font-weight: 600; text-align: right; }
-.detail-value.mono { font-family: monospace; font-size: 12px; color: var(--text-muted); }
+.detail-label { color: rgba(255, 255, 255, 0.6); }
+.detail-value { font-weight: 700; text-align: right; color: #fff; }
 
+.detail-value.mono { 
+  font-family: 'Courier New', Courier, monospace; 
+  font-size: 13px; 
+  color: #c4b5fd; /* Subtle purple for hashes/IDs */
+  background: rgba(139, 92, 246, 0.15);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* 6. Glowing Security Verified Box */
 .security-verified {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(99, 102, 241, 0.05));
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 28px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.1));
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
   text-align: left;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.1);
 }
 
 .security-verified h3 {
-  font-family: var(--font-display);
   font-size: 14px;
-  font-weight: 700;
-  color: var(--success);
+  font-weight: 800;
+  color: #34d399;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 14px;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.verification-steps { display: flex; flex-direction: column; gap: 8px; }
+.verification-steps { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+}
 
 .verification-step {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 13px;
+  gap: 12px;
+  font-size: 14px;
 }
-.v-icon { font-size: 16px; }
-.v-label { flex: 1; color: var(--text-secondary); }
-.v-check { color: var(--success); font-weight: 700; }
 
-.result-actions { display: flex; gap: 12px; justify-content: center; }
+.v-icon { 
+  font-size: 18px; 
+  color: #34d399;
+  filter: drop-shadow(0 0 5px rgba(52, 211, 153, 0.5));
+}
+
+.v-label { 
+  flex: 1; 
+  color: rgba(255, 255, 255, 0.7); 
+}
+
+.v-check { 
+  color: #10b981; 
+  font-weight: 800; 
+}
+
+/* 7. Action Buttons Layout */
+.result-actions { 
+  display: flex; 
+  gap: 16px; 
+  justify-content: center; 
+  flex-wrap: wrap;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 480px) {
+  .result-card { padding: 40px 24px; }
+  .result-actions { flex-direction: column; }
+  .result-actions > * { width: 100%; }
+}
