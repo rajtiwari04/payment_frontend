@@ -10,7 +10,11 @@ const ProductCard = ({ product, onAddToCart }) => (
     <div className="product-image-wrap">
       <img
 src={
-  `https://source.unsplash.com/400x400/?${encodeURIComponent(product.name + ',' + product.category + ',' + product.brand)}`
+  product.images?.length > 0
+    ? product.images[0]
+    : `https://source.unsplash.com/400x400/?${encodeURIComponent(
+        product.name + ',' + product.category + ',' + product.brand
+      )}&sig=${product._id}`
 }
         alt={product.name}
         className="product-image"
