@@ -21,7 +21,9 @@ const ProductCard = ({ product, onAddToCart }) => (
       <h3 className="product-name">{product.name}</h3>
       <p className="product-desc">{product.description}</p>
       <div className="product-footer">
-        <div className="product-price">${product.price.toFixed(2)}</div>
+      <div className="product-price">
+  ₹{product.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+</div>
         <div className="product-stock">
           {product.stock > 0
             ? <span className="in-stock">● {product.stock} left</span>
