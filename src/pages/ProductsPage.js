@@ -9,7 +9,10 @@ const ProductCard = ({ product, onAddToCart }) => (
   <div className="product-card">
     <div className="product-image-wrap">
       <img
-        src={product.images?.[0] || `https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400`}
+      src={
+  product.images?.[0] ||
+  `https://source.unsplash.com/400x400/?${encodeURIComponent(product.name + ',' + product.category)}`
+}
         alt={product.name}
         className="product-image"
         onError={e => { e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'; }}
