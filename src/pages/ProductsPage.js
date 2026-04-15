@@ -9,9 +9,9 @@ const ProductCard = ({ product, onAddToCart }) => (
   <div className="product-card">
     <div className="product-image-wrap">
       <img
-      src={
+src={
   product.images?.[0] ||
-  `https://source.unsplash.com/400x400/?${encodeURIComponent(product.name + ',' + product.category)}`
+  `https://source.unsplash.com/400x400/?${encodeURIComponent(product.name)}`
 }
         alt={product.name}
         className="product-image"
