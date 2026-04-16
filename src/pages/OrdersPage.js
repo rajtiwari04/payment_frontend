@@ -17,6 +17,12 @@ const OrdersPage = () => {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(null);
 
+  const formatPrice = (amount) =>
+    new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+    }).format(amount);
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -64,7 +70,7 @@ const OrdersPage = () => {
                     {order.otpVerified && <span className="security-badge">🛡 2FA Verified</span>}
                   </div>
                   <div className="order-summary-right">
-                    <span className="order-total">${order.totalAmount?.toFixed(2)}</span>
+                    <span className="order-total">{formatPrice(order.totalAmount)}</span>
                     <span className="order-date">{new Date(order.createdAt).toLocaleDateString()}</span>
                     <span className="expand-arrow">{expanded === order._id ? '▲' : '▼'}</span>
                   </div>
@@ -75,22 +81,44 @@ const OrdersPage = () => {
                     <div className="order-items-list">
                       {order.items?.map((item, i) => (
                         <div key={i} className="order-item-row">
-                          <img src={item.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60'}
-                            alt={item.name} className="order-item-thumb"
-                            onError={e => { e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60'; }} />
+                          <img
+                            src={item.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60'}
+                            alt={item.name}
+                            className="order-item-thumb"
+                            onError={e => { e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60'; }}
+                          />
                           <div className="order-item-details">
                             <span className="order-item-name">{item.name}</span>
-                            <span className="order-item-meta">₹{item.price?.toFixed(2)} × {item.quantity}</span>
+                            <span className="order-item-meta">
+                              {formatPrice(item.price)} × {item.quantity}
+                            </span>
                           </div>
-<span className="order-item-subtotal">₹{(item.price * item.quantity).toFixed(2)}</span>                        </div>
+                          <span className="order-item-subtotal">
+                            {formatPrice(item.price * item.quantity)}
+                          </span>
+                        </div>
                       ))}
                     </div>
 
                     <div className="order-breakdown">
-                      <div className="breakdown-row"><span>Subtotal</span><span>${order.subtotal?.toFixed(2)}</span></div>
-                      <div className="breakdown-row"><span>Tax</span><span>${order.taxAmount?.toFixed(2)}</span></div>
-                      <div className="breakdown-row"><span>Shipping</span><span>{order.shippingAmount === 0 ? 'FREE' : `$${order.shippingAmount?.toFixed(2)}`}</span></div>
-                      <div className="breakdown-row total"><span>Total</span><span>${order.totalAmount?.toFixed(2)}</span></div>
+                      <div className="breakdown-row">
+                        <span>Subtotal</span>
+                        <span>{formatPrice(order.subtotal)}</span>
+                      </div>
+                      <div className="breakdown-row">
+                        <span>Tax</span>
+                        <span>{formatPrice(order.taxAmount)}</span>
+                      </div>
+                      <div className="breakdown-row">
+                        <span>Shipping</span>
+                        <span>
+                          {order.shippingAmount === 0 ? 'FREE' : formatPrice(order.shippingAmount)}
+                        </span>
+                      </div>
+                      <div className="breakdown-row total">
+                        <span>Total</span>
+                        <span>{formatPrice(order.totalAmount)}</span>
+                      </div>
                     </div>
 
                     {order.transaction && (
