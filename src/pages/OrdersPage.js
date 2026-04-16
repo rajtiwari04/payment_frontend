@@ -80,10 +80,9 @@ const OrdersPage = () => {
                             onError={e => { e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60'; }} />
                           <div className="order-item-details">
                             <span className="order-item-name">{item.name}</span>
-                            <span className="order-item-meta">${item.price?.toFixed(2)} × {item.quantity}</span>
+                            <span className="order-item-meta">₹{item.price?.toFixed(2)} × {item.quantity}</span>
                           </div>
-                          <span className="order-item-subtotal">${(item.price * item.quantity).toFixed(2)}</span>
-                        </div>
+<span className="order-item-subtotal">₹{(item.price * item.quantity).toFixed(2)}</span>                        </div>
                       ))}
                     </div>
 
