@@ -14,7 +14,7 @@ src={
     ? product.images[0]
     : `https://source.unsplash.com/400x400/?${encodeURIComponent(
         product.name + ',' + product.category + ',' + product.brand
-      )}&sig=${product._id}`
+      )}&sig=${Date.now()}`
 }
         alt={product.name}
         className="product-image"
