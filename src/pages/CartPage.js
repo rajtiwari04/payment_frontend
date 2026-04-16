@@ -9,6 +9,12 @@ const CartPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  const formatPrice = (amount) =>
+    new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+    }).format(amount);
+
   const taxAmount = cartTotal * 0.08;
   const shippingAmount = cartTotal > 100 ? 0 : 9.99;
   const totalAmount = cartTotal + taxAmount + shippingAmount;
@@ -51,14 +57,14 @@ const CartPage = () => {
                 />
                 <div className="cart-item-info">
                   <h3 className="cart-item-name">{item.name}</h3>
-                  <p className="cart-item-price">₹{item.price.toFixed(2)}</p>
+                  <p className="cart-item-price">{formatPrice(item.price)}</p>
                 </div>
                 <div className="quantity-control">
                   <button className="qty-btn" onClick={() => updateQuantity(item.productId, item.quantity - 1)}>−</button>
                   <span className="qty-value">{item.quantity}</span>
                   <button className="qty-btn" onClick={() => updateQuantity(item.productId, item.quantity + 1)}>+</button>
                 </div>
-                <div className="cart-item-total">${(item.price * item.quantity).toFixed(2)}</div>
+                <div className="cart-item-total">{formatPrice(item.price * item.quantity)}</div>
                 <button className="remove-btn" onClick={() => removeFromCart(item.productId)}>✕</button>
               </div>
             ))}
@@ -68,14 +74,23 @@ const CartPage = () => {
           <div className="cart-summary">
             <div className="card">
               <h3 className="summary-title">Order Summary</h3>
-              <div className="summary-row"><span>Subtotal</span><span>${cartTotal.toFixed(2)}</span></div>
-              <div className="summary-row"><span>Tax (8%)</span><span>${taxAmount.toFixed(2)}</span></div>
-              <div className="summary-row"><span>Shipping</span><span>{shippingAmount === 0 ? 'FREE' : `$${shippingAmount.toFixed(2)}`}</span></div>
-              {shippingAmount === 0 && <div className="free-shipping-badge">🎉 Free shipping on orders over $100!</div>}
+              <div className="summary-row">
+                <span>Subtotal</span>
+                <span>{formatPrice(cartTotal)}</span>
+              </div>
+              <div className="summary-row">
+                <span>Tax (8%)</span>
+                <span>{formatPrice(taxAmount)}</span>
+              </div>
+              <div className="summary-row">
+                <span>Shipping</span>
+                <span>{shippingAmount === 0 ? 'FREE' : formatPrice(shippingAmount)}</span>
+              </div>
+              {shippingAmount === 0 && <div className="free-shipping-badge">🎉 Free shipping on orders over ₹100!</div>}
               <div className="summary-divider" />
               <div className="summary-row summary-total">
                 <span>Total</span>
-                <span>${totalAmount.toFixed(2)}</span>
+                <span>{formatPrice(totalAmount)}</span>
               </div>
               <button className="btn btn-primary btn-full btn-lg" onClick={handleCheckout}>
                 🔒 Secure Checkout
