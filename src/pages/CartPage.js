@@ -51,7 +51,7 @@ const CartPage = () => {
                 />
                 <div className="cart-item-info">
                   <h3 className="cart-item-name">{item.name}</h3>
-                  <p className="cart-item-price">${item.price.toFixed(2)}</p>
+                  <p className="cart-item-price">₹{item.price.toFixed(2)}</p>
                 </div>
                 <div className="quantity-control">
                   <button className="qty-btn" onClick={() => updateQuantity(item.productId, item.quantity - 1)}>−</button>
